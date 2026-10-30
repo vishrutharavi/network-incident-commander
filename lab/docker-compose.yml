@@ -1,0 +1,28 @@
+services:
+
+  order-service:
+    build: ./order_service
+    container_name: incident-order
+    ports:
+      - "127.0.0.1:8001:8001"
+    environment:
+      PAYMENT_URL: http://payment-service:8003
+      INVENTORY_URL: http://inventory-service:8002
+    networks:
+      - incident-lab
+
+  payment-service:
+    build: ./payment_service
+    container_name: incident-payment
+    networks:
+      - incident-lab
+
+  inventory-service:
+    build: ./inventory_service
+    container_name: incident-inventory
+    networks:
+      - incident-lab
+
+networks:
+  incident-lab:
+    driver: bridge
